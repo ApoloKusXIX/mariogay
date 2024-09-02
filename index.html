@@ -1,0 +1,108 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pou6_ElCalvo🎁✔</title>
+    <style>
+
+       body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            background-image: url('nuevoFondo.jpg');
+            background-size: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #mario {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background-image: url('nuevoMario.webp');
+            background-size: cover;
+            top: 200px;
+            left: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="gameCanvas" width="1920" height="1080"></canvas>
+<div id="mario"></div>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const mario = document.getElementById('mario');
+
+    let marioX = 50;
+    let marioY = 100;
+    const gravity = 0.5;
+    let velocityY = 0;
+    let isJumping = false;
+
+    // Eventos de teclado
+    document.addEventListener('keydown', (event) => {
+        switch (event.key) {
+            case 'ArrowRight':
+                marioX += 10;
+                break;
+            case 'ArrowLeft':
+                marioX -= 10;
+                break;
+            case 'ArrowUp':
+                if (!isJumping) {
+                    velocityY = -10;
+                    isJumping = true;
+                }
+                break;
+        }
+        updateMario();
+    });
+
+    // Función para actualizar la posición de Mario
+    function updateMario() {
+        mario.style.left = marioX + 'px';
+        mario.style.top = marioY + 'px';
+    }
+
+    // Loop de juego
+    function gameLoop() {
+        if (isJumping) {
+            marioY += velocityY;
+            velocityY += gravity;
+
+            if (marioY >= 200) {
+                marioY = 200;
+                isJumping = false;
+                velocityY = 0;
+            }
+
+            updateMario();
+        }
+        requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+
+    // Función para cambiar la textura del fondo
+    function cambiarFondo(fondoUrl) {
+        canvas.style.backgroundImage = `url(${fondoUrl})`;
+    }
+
+    // Función para cambiar la textura de Mario
+    function cambiarMario(marioUrl) {
+        mario.style.backgroundImage = `url(${marioUrl})`;
+    }
+
+    // Ejemplo de cambio de textura
+    // cambiarFondo('nuevoFondo.webp');
+    // cambiarMario('nuevoMario.webp');
+</script>
+
+</body>
+</html>
+
